@@ -76,6 +76,7 @@ export default class TestPlugin extends Plugin {
 	}
 
 	startReminders() {
+		this.app.vault.getFiles();
 		let folder = this.app.vault.getFolderByPath("assets");
 
 		if (folder == null) {
