@@ -76,21 +76,27 @@ export default class TestPlugin extends Plugin {
 	}
 
 	startReminders() {
-		this.app.vault.getFiles();
-		let folder = this.app.vault.getFolderByPath("assets");
+		let assets_folder : TFile[] = [];
 
-		if (folder == null) {
-			new Notice("assets folder doesn't exist! make one directly inside the vault folder, and put in some images, or else you won't get productivity reminders", 10 * 1000);
-		} else {
-			let assets_folder : TFile[] = [];
-		
-			folder.children.forEach((file)=> {
-				if (file instanceof TFile && (file.extension == "png" || file.extension == "jpeg")) {
-					assets_folder.push(file);
+		this.registerInterval(window.setInterval(() => {
+			if (assets_folder.length == 0) {
+				// try loading images
+				let folder = this.app.vault.getFolderByPath("assets");
+
+				if (folder == null) {
+					new Notice('are you being productive?', (this.settings.duration * 1000));
+				} else {
+					folder.children.forEach((file)=> {
+						if (file instanceof TFile && (file.extension == "png" || file.extension == "jpeg")) {
+							assets_folder.push(file);
+						}
+					});
 				}
-			});
+			}
 
-			this.registerInterval(window.setInterval(() => {
+
+
+			if (assets_folder.length > 0) {
 				new Notice('are you being productive?', (this.settings.duration * 1000))
 				.noticeEl.createEl("img", { attr: { 
 					src: this.app.vault.getResourcePath(assets_folder[Math.floor(Math.random()*assets_folder.length)]),
@@ -98,8 +104,33 @@ export default class TestPlugin extends Plugin {
 					height: 150,
 					objectfit: "cover"}
 				});
-			}, this.settings.frequency * 60 * 1000));
-		}
+			}
+		}, this.settings.frequency * 60 * 1000));
+
+
+		// // this.app.vault.getFiles();
+		// let folder = this.app.vault.getFolderByPath("assets");
+
+		// if (folder == null) {
+		// 	new Notice("assets folder doesn't exist! make one directly inside the vault folder, and put in some images, or else you won't get productivity reminders", 10 * 1000);
+		// } else {
+		
+		// 	folder.children.forEach((file)=> {
+		// 		if (file instanceof TFile && (file.extension == "png" || file.extension == "jpeg")) {
+		// 			assets_folder.push(file);
+		// 		}
+		// 	});
+
+		// 	this.registerInterval(window.setInterval(() => {
+		// 		new Notice('are you being productive?', (this.settings.duration * 1000))
+		// 		.noticeEl.createEl("img", { attr: { 
+		// 			src: this.app.vault.getResourcePath(assets_folder[Math.floor(Math.random()*assets_folder.length)]),
+		// 			width: 150, 
+		// 			height: 150,
+		// 			objectfit: "cover"}
+		// 		});
+		// 	}, this.settings.frequency * 60 * 1000));
+		// }
 	}
 
 	async loadSettings() {
