@@ -4,7 +4,7 @@
 	"name": "Productivity Plugin",
 	"version": "0.0.1",
 	"minAppVersion": "0.15.0",
-	"description": "maybe i can code my way out of executive dysfuction",
+	"description": "bunch of productivity tools that work for my brain",
 	"author": "morgulveil",
 	"isDesktopOnly": false
 }

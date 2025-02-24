@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
-	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"name": "productivity-plugin",
+	"version": "0.0.1",
+	"description": "bunch of productivity tools that work for my brain",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
